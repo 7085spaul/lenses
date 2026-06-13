@@ -13,4 +13,5 @@ body {
 
 .text-white {
   --tw-text-opacity: 1;
+  color: transparent !important;
 }
