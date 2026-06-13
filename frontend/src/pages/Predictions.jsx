@@ -7,6 +7,9 @@ export default function Predictions() {
   const [atRisk, setAtRisk] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [showActionModal, setShowActionModal] = useState(false);
+  const [selectedOrder, setSelectedOrder] = useState(null);
+  const [actionNote, setActionNote] = useState('');
 
   useEffect(() => {
     fetchPredictions();
@@ -56,6 +59,27 @@ export default function Predictions() {
       'low': 'bg-green-50 border-green-200'
     };
     return colors[risk] || 'bg-gray-50 border-gray-200';
+  };
+
+  const handleTakeAction = (order) => {
+    setSelectedOrder(order);
+    setShowActionModal(true);
+    setActionNote('');
+  };
+
+  const submitAction = async (e) => {
+    e.preventDefault();
+    try {
+      const apiUrl = getApiUrl();
+      // Log the action (in production, this would send to backend)
+      console.log('Action taken for order:', selectedOrder.id, 'Note:', actionNote);
+      alert(`Action logged for order ${selectedOrder.order_number}: ${actionNote}`);
+      setShowActionModal(false);
+      setActionNote('');
+      setSelectedOrder(null);
+    } catch (error) {
+      console.error('Error submitting action:', error);
+    }
   };
 
   return (
@@ -134,9 +158,8 @@ export default function Predictions() {
                     <p><span className="text-gray-500">QC Failures:</span> {order.qc_failed_count || 0}</p>
                   </div>
                   <div
-                    onClick={() => console.log('Take Action clicked for order:', order.id)}
+                    onClick={() => handleTakeAction(order)}
                     className="mt-4 w-full bg-red-600 text-white py-2 rounded-lg hover:bg-red-700 text-sm pointer-events-auto cursor-pointer"
-                    style={{ position: 'relative', zIndex: 103 }}
                   >
                     Take Action
                   </div>
@@ -229,6 +252,53 @@ export default function Predictions() {
           </div>
         </div>
       </div>
+
+      {/* Take Action Modal */}
+      {showActionModal && selectedOrder && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 pointer-events-auto">
+          <div className="bg-white rounded-lg p-6 w-full max-w-md pointer-events-auto shadow-2xl">
+            <h3 className="text-lg font-semibold mb-4">Take Action for Order {selectedOrder.order_number}</h3>
+            <form onSubmit={submitAction}>
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Order Details</label>
+                  <div className="bg-gray-50 p-3 rounded-lg text-sm">
+                    <p><strong>Risk Level:</strong> {selectedOrder.risk_level}</p>
+                    <p><strong>Breach Probability:</strong> {(selectedOrder.breach_probability * 100).toFixed(0)}%</p>
+                    <p><strong>Current Stage:</strong> {selectedOrder.current_stage}</p>
+                    <p><strong>Hours Until Breach:</strong> {selectedOrder.hours_until_breach.toFixed(1)}h</p>
+                  </div>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Action Note</label>
+                  <textarea
+                    value={actionNote}
+                    onChange={(e) => setActionNote(e.target.value)}
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2"
+                    rows="3"
+                    placeholder="Describe the action taken..."
+                    required
+                  />
+                </div>
+                <div className="flex justify-end space-x-3 mt-6 pointer-events-auto">
+                  <div
+                    onClick={() => setShowActionModal(false)}
+                    className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 pointer-events-auto cursor-pointer"
+                  >
+                    Cancel
+                  </div>
+                  <div
+                    onClick={submitAction}
+                    className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 pointer-events-auto cursor-pointer"
+                  >
+                    Submit Action
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
       </>
       )}
     </div>
