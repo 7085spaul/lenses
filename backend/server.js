@@ -18,6 +18,21 @@ app.use('/api/inventory', inventoryRoutes);
 app.use('/api/predictions', predictionRoutes);
 app.use('/api/alerts', alertRoutes);
 
+// Root route
+app.get('/', (req, res) => {
+  res.json({
+    message: 'AI-Powered Order Management System API',
+    version: '1.0.0',
+    endpoints: {
+      orders: '/api/orders',
+      inventory: '/api/inventory',
+      predictions: '/api/predictions',
+      alerts: '/api/alerts',
+      health: '/health'
+    }
+  });
+});
+
 app.get('/health', (req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
