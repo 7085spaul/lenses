@@ -252,6 +252,8 @@ export default function Predictions() {
           </div>
         </div>
       </div>
+      </>
+      )}
 
       {/* Take Action Modal */}
       {showActionModal && selectedOrder && (
@@ -298,8 +300,6 @@ export default function Predictions() {
             </form>
           </div>
         </div>
-      )}
-      </>
       )}
     </div>
   );
