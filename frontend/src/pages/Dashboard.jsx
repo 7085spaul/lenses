@@ -96,12 +96,12 @@ export default function Dashboard() {
                     <div className="flex justify-between items-start mb-2">
                       <span className="font-semibold">{order.order_number}</span>
                       <span className={`px-2 py-1 rounded-full text-xs font-medium bg-gradient-to-r ${getRiskColor(order.risk_level)} text-white`}>
-                        {(order.breach_probability * 100).toFixed(0)}% Risk
+                        {order.breach_probability ? (order.breach_probability * 100).toFixed(0) + '% Risk' : 'N/A'}
                       </span>
                     </div>
-                    <p className="text-sm text-gray-600">{order.current_stage}</p>
+                    <p className="text-sm text-gray-600">{order.current_stage || 'N/A'}</p>
                     <p className="text-xs text-gray-500 mt-1">
-                      {order.hours_until_breach.toFixed(1)}h until breach
+                      {order.hours_until_breach ? order.hours_until_breach.toFixed(1) + 'h until breach' : 'N/A'}
                     </p>
                   </div>
                 ))}
@@ -146,7 +146,14 @@ export default function Dashboard() {
                           {prediction && (
                             <div className="flex items-center space-x-2">
                               <div className={`w-2 h-2 rounded-full ${getRiskColor(prediction.risk_level)}`}></div>
-                              <span className="text-sm">{prediction.risk_level}</span>
+                              <span className={`text-sm font-medium ${prediction.risk_level === 'high' ? 'text-red-600' : prediction.risk_level === 'medium' ? 'text-yellow-600' : 'text-green-600'}`}>
+                                {prediction.risk_level}
+                              </span>
+                              {prediction.breach_probability && (
+                                <span className={`text-xs px-2 py-1 rounded-full ${prediction.risk_level === 'high' ? 'bg-red-100 text-red-800' : prediction.risk_level === 'medium' ? 'bg-yellow-100 text-yellow-800' : 'bg-green-100 text-green-800'}`}>
+                                  {(prediction.breach_probability * 100).toFixed(0)}%
+                                </span>
+                              )}
                             </div>
                           )}
                         </td>
