@@ -265,10 +265,10 @@ export default function Predictions() {
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">Order Details</label>
                   <div className="bg-gray-50 p-3 rounded-lg text-sm">
-                    <p><strong>Risk Level:</strong> {selectedOrder.risk_level}</p>
-                    <p><strong>Breach Probability:</strong> {(selectedOrder.breach_probability * 100).toFixed(0)}%</p>
-                    <p><strong>Current Stage:</strong> {selectedOrder.current_stage}</p>
-                    <p><strong>Hours Until Breach:</strong> {selectedOrder.hours_until_breach.toFixed(1)}h</p>
+                    <p><strong>Risk Level:</strong> {selectedOrder.risk_level || 'N/A'}</p>
+                    <p><strong>Breach Probability:</strong> {selectedOrder.breach_probability ? (selectedOrder.breach_probability * 100).toFixed(0) + '%' : 'N/A'}</p>
+                    <p><strong>Current Stage:</strong> {selectedOrder.current_stage || 'N/A'}</p>
+                    <p><strong>Hours Until Breach:</strong> {selectedOrder.hours_until_breach ? selectedOrder.hours_until_breach.toFixed(1) + 'h' : 'N/A'}</p>
                   </div>
                 </div>
                 <div>
