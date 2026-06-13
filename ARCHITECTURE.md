@@ -140,13 +140,14 @@ All endpoints support:
 
 **Production Deployment:**
 - Frontend: Deployed to Vercel (https://aiplatform-eyewear.vercel.app)
-- Backend: Deployed to Railway (https://aiplatform-backend.railway.app)
+- Backend: Deployed to Render (https://aiplatform-backend.onrender.com)
+- Repository: https://github.com/7085spaul/lenses
 - Database: SQLite (migrate to PostgreSQL for production scalability)
 - Environment: Production .env with real credentials
 
 **Deployment Configuration Files:**
 - `frontend/vercel.json` - Vercel deployment config
-- `backend/Procfile` - Railway deployment config
+- `backend/Procfile` - Render deployment config
 - `.gitignore` files for both frontend and backend
 
 **Environment Variables Required:**
@@ -197,4 +198,4 @@ All endpoints support:
 
 **Last Updated**: June 13, 2026
 **Version**: 1.0.0
-**Deployment**: Ready for cloud deployment (Vercel + Railway)
+**Deployment**: Code pushed to GitHub (https://github.com/7085spaul/lenses) - Ready for cloud deployment (Vercel + Render)
