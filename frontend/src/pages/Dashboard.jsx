@@ -22,6 +22,8 @@ export default function Dashboard() {
       ]);
       const ordersData = await ordersRes.json();
       const predData = await predRes.json();
+      console.log('Orders data:', ordersData);
+      console.log('Predictions data:', predData);
       setOrders(ordersData);
       setPredictions(predData);
       setLoading(false);
@@ -57,6 +59,7 @@ export default function Dashboard() {
   };
 
   const atRiskOrders = predictions.filter(p => p.risk_level === 'high');
+  console.log('At risk orders:', atRiskOrders);
 
   return (
     <div className="space-y-6 pointer-events-auto" style={{ position: 'relative', zIndex: 100 }}>
@@ -129,6 +132,9 @@ export default function Dashboard() {
                 <tbody className="divide-y divide-gray-200">
                   {orders.slice(0, 10).map((order, index) => {
                     const prediction = predictions.find(p => p.order_id === order.id);
+                    // If no prediction found, try matching by order_number
+                    const predictionByNumber = !prediction ? predictions.find(p => p.order_number === order.order_number) : prediction;
+                    const finalPrediction = prediction || predictionByNumber;
                     return (
                       <tr
                         key={order.id}
@@ -143,15 +149,15 @@ export default function Dashboard() {
                           </span>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          {prediction && (
+                          {finalPrediction && (
                             <div className="flex items-center space-x-2">
-                              <div className={`w-2 h-2 rounded-full ${getRiskColor(prediction.risk_level)}`}></div>
-                              <span className={`text-sm font-medium ${prediction.risk_level === 'high' ? 'text-red-600' : prediction.risk_level === 'medium' ? 'text-yellow-600' : 'text-green-600'}`}>
-                                {prediction.risk_level}
+                              <div className={`w-2 h-2 rounded-full ${getRiskColor(finalPrediction.risk_level)}`}></div>
+                              <span className={`text-sm font-medium ${finalPrediction.risk_level === 'high' ? 'text-red-600' : finalPrediction.risk_level === 'medium' ? 'text-yellow-600' : 'text-green-600'}`}>
+                                {finalPrediction.risk_level}
                               </span>
-                              {prediction.breach_probability && (
-                                <span className={`text-xs px-2 py-1 rounded-full ${prediction.risk_level === 'high' ? 'bg-red-100 text-red-800' : prediction.risk_level === 'medium' ? 'bg-yellow-100 text-yellow-800' : 'bg-green-100 text-green-800'}`}>
-                                  {(prediction.breach_probability * 100).toFixed(0)}%
+                              {finalPrediction.breach_probability && (
+                                <span className={`text-xs px-2 py-1 rounded-full ${finalPrediction.risk_level === 'high' ? 'bg-red-100 text-red-800' : finalPrediction.risk_level === 'medium' ? 'bg-yellow-100 text-yellow-800' : 'bg-green-100 text-green-800'}`}>
+                                  {(finalPrediction.breach_probability * 100).toFixed(0)}%
                                 </span>
                               )}
                             </div>
