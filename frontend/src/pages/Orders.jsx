@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Search, Filter, MoreVertical, Clock } from 'lucide-react';
+import { getApiUrl } from '../config/api';
 
 export default function Orders() {
   const { id } = useParams();
@@ -20,8 +21,9 @@ export default function Orders() {
 
   const fetchOrders = async () => {
     try {
+      const apiUrl = getApiUrl();
       const params = new URLSearchParams(filters);
-      const res = await fetch(`/api/orders?${params}`);
+      const res = await fetch(`${apiUrl}/api/orders?${params}`);
       const data = await res.json();
       setOrders(data);
     } catch (error) {
@@ -31,7 +33,8 @@ export default function Orders() {
 
   const fetchOrder = async (orderId) => {
     try {
-      const res = await fetch(`/api/orders/${orderId}`);
+      const apiUrl = getApiUrl();
+      const res = await fetch(`${apiUrl}/api/orders/${orderId}`);
       const data = await res.json();
       setSelectedOrder(data);
     } catch (error) {
@@ -41,7 +44,8 @@ export default function Orders() {
 
   const updateOrderStatus = async (statusData) => {
     try {
-      await fetch(`/api/orders/${selectedOrder.id}/status`, {
+      const apiUrl = getApiUrl();
+      await fetch(`${apiUrl}/api/orders/${selectedOrder.id}/status`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(statusData)

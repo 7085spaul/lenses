@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Plus, Search, AlertTriangle } from 'lucide-react';
+import { getApiUrl } from '../config/api';
 
 export default function Inventory() {
   const [inventory, setInventory] = useState([]);
@@ -18,7 +19,8 @@ export default function Inventory() {
 
   const fetchInventory = async () => {
     try {
-      const res = await fetch('/api/inventory');
+      const apiUrl = getApiUrl();
+      const res = await fetch(`${apiUrl}/api/inventory`);
       const data = await res.json();
       setInventory(data);
     } catch (error) {
@@ -28,7 +30,8 @@ export default function Inventory() {
 
   const fetchLowStock = async () => {
     try {
-      const res = await fetch('/api/inventory/alerts/low-stock');
+      const apiUrl = getApiUrl();
+      const res = await fetch(`${apiUrl}/api/inventory/alerts/low-stock`);
       const data = await res.json();
       setLowStock(data);
     } catch (error) {
@@ -38,7 +41,8 @@ export default function Inventory() {
 
   const checkAvailability = async () => {
     try {
-      const res = await fetch('/api/inventory/check', {
+      const apiUrl = getApiUrl();
+      const res = await fetch(`${apiUrl}/api/inventory/check`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -60,7 +64,8 @@ export default function Inventory() {
   const addInventory = async (e) => {
     e.preventDefault();
     try {
-      await fetch('/api/inventory', {
+      const apiUrl = getApiUrl();
+      await fetch(`${apiUrl}/api/inventory`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newItem)

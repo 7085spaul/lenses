@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Plus, Save, Eye } from 'lucide-react';
+import { getApiUrl } from '../config/api';
 
 export default function NewOrder() {
   const navigate = useNavigate();
@@ -24,7 +25,8 @@ export default function NewOrder() {
 
   const checkInventory = async () => {
     try {
-      const res = await fetch('/api/inventory/check', {
+      const apiUrl = getApiUrl();
+      const res = await fetch(`${apiUrl}/api/inventory/check`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -46,7 +48,8 @@ export default function NewOrder() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch('/api/orders', {
+      const apiUrl = getApiUrl();
+      const res = await fetch(`${apiUrl}/api/orders`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(order)

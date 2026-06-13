@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Clock, AlertTriangle, CheckCircle, TrendingUp } from 'lucide-react';
+import { getApiUrl } from '../config/api';
 
 export default function Dashboard() {
   const [orders, setOrders] = useState([]);
@@ -14,9 +15,10 @@ export default function Dashboard() {
     console.log('Refresh button clicked!');
     setLoading(true);
     try {
+      const apiUrl = getApiUrl();
       const [ordersRes, predRes] = await Promise.all([
-        fetch('/api/orders'),
-        fetch('/api/predictions')
+        fetch(`${apiUrl}/api/orders`),
+        fetch(`${apiUrl}/api/predictions`)
       ]);
       const ordersData = await ordersRes.json();
       const predData = await predRes.json();

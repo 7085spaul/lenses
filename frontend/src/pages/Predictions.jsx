@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Brain, AlertTriangle, TrendingUp, Clock } from 'lucide-react';
+import { getApiUrl } from '../config/api';
 
 export default function Predictions() {
   const [predictions, setPredictions] = useState([]);
@@ -14,7 +15,8 @@ export default function Predictions() {
 
   const fetchPredictions = async () => {
     try {
-      const res = await fetch('/api/predictions');
+      const apiUrl = getApiUrl();
+      const res = await fetch(`${apiUrl}/api/predictions`);
       const data = await res.json();
       console.log('Predictions data:', data);
       setPredictions(data);
@@ -28,7 +30,8 @@ export default function Predictions() {
 
   const fetchAtRisk = async () => {
     try {
-      const res = await fetch('/api/predictions/at-risk');
+      const apiUrl = getApiUrl();
+      const res = await fetch(`${apiUrl}/api/predictions/at-risk`);
       const data = await res.json();
       console.log('At-risk data:', data);
       setAtRisk(data);

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Bell, Mail, Send, CheckCircle } from 'lucide-react';
+import { getApiUrl } from '../config/api';
 
 export default function Alerts() {
   const [alerts, setAlerts] = useState([]);
@@ -14,7 +15,8 @@ export default function Alerts() {
 
   const fetchAlerts = async () => {
     try {
-      const res = await fetch('/api/alerts');
+      const apiUrl = getApiUrl();
+      const res = await fetch(`${apiUrl}/api/alerts`);
       const data = await res.json();
       setAlerts(data);
     } catch (error) {
@@ -24,7 +26,8 @@ export default function Alerts() {
 
   const fetchOrders = async () => {
     try {
-      const res = await fetch('/api/orders');
+      const apiUrl = getApiUrl();
+      const res = await fetch(`${apiUrl}/api/orders`);
       const data = await res.json();
       setOrders(data);
     } catch (error) {
@@ -36,7 +39,8 @@ export default function Alerts() {
     e.preventDefault();
     console.log('Create Alert button clicked!', newAlert);
     try {
-      await fetch('/api/alerts', {
+      const apiUrl = getApiUrl();
+      await fetch(`${apiUrl}/api/alerts`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newAlert)

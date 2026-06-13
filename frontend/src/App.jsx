@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
 import { Layout, Dashboard, Orders, Inventory, Predictions, Alerts, NewOrder } from './pages';
 import { Activity, Package, Database, Brain, Bell, Plus } from 'lucide-react';
+import { getApiUrl } from './config/api';
 
 function App() {
   const [stats, setStats] = useState(null);
@@ -12,7 +13,8 @@ function App() {
 
   const fetchStats = async () => {
     try {
-      const res = await fetch('/api/orders/stats/overview');
+      const apiUrl = getApiUrl();
+      const res = await fetch(`${apiUrl}/api/orders/stats/overview`);
       const data = await res.json();
       setStats(data);
     } catch (error) {
