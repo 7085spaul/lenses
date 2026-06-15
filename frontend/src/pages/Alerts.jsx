@@ -55,7 +55,8 @@ export default function Alerts() {
   const autoGenerateAlerts = async () => {
     console.log('Auto-Generate button clicked!');
     try {
-      const res = await fetch('/api/alerts/auto-generate', {
+      const apiUrl = getApiUrl();
+      const res = await fetch(`${apiUrl}/api/alerts/auto-generate`, {
         method: 'POST'
       });
       if (res.ok) {

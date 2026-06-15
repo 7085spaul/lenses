@@ -142,11 +142,21 @@ const seedInitialData = () => {
       [-1.00, 0.00, null, 'single_vision', '1.50', null, 30, 'warehouse'],
       [-2.00, 0.00, null, 'single_vision', '1.50', null, 25, 'warehouse'],
       [-3.00, 0.00, null, 'single_vision', '1.50', null, 20, 'warehouse'],
+      [-4.00, 0.00, null, 'single_vision', '1.50', null, 15, 'warehouse'],
       [0.00, -0.50, 90, 'single_vision', '1.50', null, 15, 'warehouse'],
       [-1.50, -0.75, 180, 'single_vision', '1.60', 'anti_reflective', 10, 'warehouse'],
       [-2.50, -1.00, 90, 'single_vision', '1.67', 'anti_reflective', 8, 'warehouse'],
       [0.00, 0.00, null, 'progressive', '1.50', null, 15, 'warehouse'],
-      [-1.00, -0.50, null, 'progressive', '1.67', 'anti_reflective', 5, 'warehouse']
+      [-1.00, -0.50, null, 'progressive', '1.67', 'anti_reflective', 5, 'warehouse'],
+      [-2.00, -1.00, null, 'progressive', '1.74', 'anti_reflective', 3, 'warehouse'],
+      [0.00, 0.00, null, 'bifocal', '1.50', null, 20, 'warehouse'],
+      [-1.50, -0.50, null, 'bifocal', '1.60', null, 12, 'warehouse'],
+      [-2.00, -1.00, null, 'bifocal', '1.67', 'anti_reflective', 8, 'warehouse'],
+      [-1.00, 0.00, null, 'single_vision', '1.60', null, 25, 'warehouse'],
+      [-2.00, -0.50, null, 'single_vision', '1.60', null, 20, 'warehouse'],
+      [-3.00, -1.50, null, 'single_vision', '1.67', null, 10, 'warehouse'],
+      [0.00, 0.00, null, 'single_vision', '1.74', 'anti_reflective', 5, 'warehouse'],
+      [-1.50, -0.75, null, 'progressive', '1.50', null, 10, 'warehouse']
     ];
 
     const insertInv = db.prepare('INSERT OR IGNORE INTO lens_inventory (sphere_power, cylinder_power, axis, lens_type, lens_index, coating, quantity, location) VALUES (?, ?, ?, ?, ?, ?, ?, ?)');
