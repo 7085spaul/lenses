@@ -28,17 +28,33 @@ const sendEmailAlert = async (order, alertType, message) => {
     console.log('EMAIL_USER:', process.env.EMAIL_USER);
     console.log('EMAIL_SERVICE:', process.env.EMAIL_SERVICE);
     console.log('EMAIL_PASS set:', !!process.env.EMAIL_PASS);
+    console.log('EMAIL_PASS length:', process.env.EMAIL_PASS ? process.env.EMAIL_PASS.length : 0);
+    
+    // Check if credentials are set
+    if (!process.env.EMAIL_USER || process.env.EMAIL_USER === 'your-email@gmail.com') {
+      console.error('❌ EMAIL_USER not configured properly');
+      return false;
+    }
+    
+    if (!process.env.EMAIL_PASS || process.env.EMAIL_PASS === 'your-app-password') {
+      console.error('❌ EMAIL_PASS not configured properly');
+      return false;
+    }
     
     const transporter = createEmailTransporter();
     
     const mailOptions = {
-      from: process.env.EMAIL_USER || 'eyewear-system@example.com',
-      to: order.customer_email || process.env.EMAIL_USER, // Send to your email if customer email not set
+      from: process.env.EMAIL_USER,
+      to: order.customer_email || process.env.EMAIL_USER,
       subject: `Order Alert: ${order.order_number} - ${alertType}`,
       text: message
     };
     
-    console.log('Mail Options:', mailOptions);
+    console.log('Mail Options:', {
+      from: mailOptions.from,
+      to: mailOptions.to,
+      subject: mailOptions.subject
+    });
     
     const info = await transporter.sendMail(mailOptions);
     console.log('✅ Email sent successfully! Message ID:', info.messageId);
